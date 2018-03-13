@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM php:7.2-cli
+FROM php:5.6-cli
 
 ENTRYPOINT [ "dumb-init", "--" ]
 CMD        [ "php", "-a" ]
@@ -64,14 +64,13 @@ RUN set -ex \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y imagemagick libmagickwand-dev libmemcached-dev uuid-dev \
     && rm -rf /var/lib/apt/lists/* \
-    && pecl install -f imagick memcached redis uuid \
+    && pecl install -f imagick memcached-2.2.0 redis uuid \
     && docker-php-ext-enable imagick.so memcached.so redis.so uuid.so
 
 # Install APCu
 RUN set -ex \
-    && pecl install -f apcu apcu_bc \
-    && docker-php-ext-enable apcu.so \
-    && docker-php-ext-enable apc.so --ini-name docker-php-ext-apcu_bc.ini
+    && pecl install -f apcu-4.0.11 \
+    && docker-php-ext-enable apcu.so
 
 # Install GeoIP Legacy
 RUN set -ex \
