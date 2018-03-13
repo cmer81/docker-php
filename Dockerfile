@@ -12,10 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM php:7.2-cli
+FROM php:7.1-fpm
+
+WORKDIR /var/www/html
+
+EXPOSE 9000
 
 ENTRYPOINT [ "dumb-init", "--" ]
-CMD        [ "php", "-a" ]
+CMD        [ "php-fpm" ]
 
 # Prepare APT depedencies
 RUN set -ex \
